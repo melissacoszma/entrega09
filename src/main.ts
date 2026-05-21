@@ -43,19 +43,12 @@ interface TicketFinal {
   lineas: ResultadoLineaTicket[];
   total: ResultadoTotalTicket;
   desgloseIva: TotalPorTipoIva[];
-}
-
-
+} 
 
 const redondear = (valor: number): number =>
   parseFloat(valor.toFixed(2));
 
-const productos: LineaTicket[] = [
-  { producto: { nombre: "Legumbres", precio: 2, tipoIva: "general" }, cantidad: 2 },
-  { producto: { nombre: "Perfume", precio: 20, tipoIva: "general" }, cantidad: 3 },
-  { producto: { nombre: "Leche", precio: 1, tipoIva: "superreducidoC" }, cantidad: 6 },
-  { producto: { nombre: "Lasaña", precio: 5, tipoIva: "superreducidoA" }, cantidad: 1 },
-];
+
 
 const getPorcentajeIva = (tipoIva: TipoIva): number => {
   switch (tipoIva) {
@@ -84,7 +77,7 @@ const calcularLineaTicket = (linea: LineaTicket): ResultadoLineaTicket => {
 };
 
 const calculaTicket = (lineasTicket: LineaTicket[]): TicketFinal => {
-  const lineas = lineasTicket.map(calcularLineaTicket);
+  const lineas = lineasTicket.map(calcularLineaTicket); // he utilizado map en vez del for
 
   const totalSinIva = redondear(lineas.reduce((acc, linea) => acc + linea.precionSinIva, 0)); // reduce recorre todas las líneas y las agrupa por tipo de IVA
   const totalConIva = redondear(lineas.reduce((acc, linea) => acc + linea.precioConIva, 0));
@@ -103,6 +96,14 @@ const calculaTicket = (lineasTicket: LineaTicket[]): TicketFinal => {
   return { lineas, total: { totalSinIva, totalConIva, totalIva }, desgloseIva };
 };
 
+const productos: LineaTicket[] = [
+  { producto: { nombre: "Legumbres", precio: 2, tipoIva: "general" }, cantidad: 2 },
+  { producto: { nombre: "Perfume", precio: 20, tipoIva: "general" }, cantidad: 3 },
+  { producto: { nombre: "Leche", precio: 1, tipoIva: "superreducidoC" }, cantidad: 6 },
+  { producto: { nombre: "Lasaña", precio: 5, tipoIva: "superreducidoA" }, cantidad: 1 },
+];
+
+
 const ticket = calculaTicket(productos);
 
-document.body.innerHTML = `<pre>${JSON.stringify(ticket, null, 2)}</pre>`;
+document.body.innerHTML = `<pre>${JSON.stringify(ticket, null, 2)}</pre>`; // esta vez he sustituido el console.log 
